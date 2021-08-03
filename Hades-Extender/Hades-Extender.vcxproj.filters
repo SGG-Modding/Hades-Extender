@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{779bfefd-9d2d-4424-b261-46c3ce155214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{bba4ab1e-1560-49a6-9a11-93be30961339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{0935cfc3-a2f0-4a72-b524-0b27ce25fa7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Hooks">
+      <UniqueIdentifier>{d5b3a4a5-3359-4ceb-ac65-577e711e290d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Lua">
+      <UniqueIdentifier>{9e90cb70-7901-4423-9a29-cdab611c4d1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Classes">
+      <UniqueIdentifier>{c92f078c-2fe6-4bc4-9a5b-14d353d8fc5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Classes\UI">
+      <UniqueIdentifier>{7d8c478c-36d1-4798-a091-2fc8dced9d79}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utilities\macros.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\memory.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\xorstr.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\core.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Hooks\hooks.h">
+      <Filter>Header Files\Core\Hooks</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\engine.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\addresses.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\proxy.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lua\lua.h">
+      <Filter>Header Files\Core\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lua\bindings.h">
+      <Filter>Header Files\Core\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lua\luafunction.h">
+      <Filter>Header Files\Core\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lua\luawrapper.h">
+      <Filter>Header Files\Core\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Classes\UI\cursor.h">
+      <Filter>Header Files\Engine\Classes\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
