@@ -15,6 +15,8 @@ VOID Initialize( VOID )
 	/* Assign our global window handle to the main Hades window */
 	g_hwnd = (HWND)FindWindowA("The Forge", NULL);
 
+	DEBUG("Thread guard: 0x%p\n", Engine::Addresses::Game::thread_guard);
+
 	/* Initialize our core */
 	if (!Core::Initialize())
 	{

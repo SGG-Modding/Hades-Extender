@@ -54,8 +54,15 @@ public:
 		//...
 	}
 
+	/* Reset the `initialized` bool */
+	VOID Reset()
+	{
+		this->initialized = FALSE;
+	}
+
 	BOOL Initialized()
 	{
+		//std::scoped_lock lock{ mtx };
 		return this->initialized;
 	}
 
@@ -89,6 +96,9 @@ public:
 		/* Assign table to global name */
 		/* Note: Maybe we can construct `LuaWrapper` with the name of the table? Allow us to have multiple */
 		lua_setglobal(L, GLOBAL_TABLE);
+
+		/* Set our initialized flag to `TRUE` */
+		this->initialized = TRUE;
 	}
 
 	VOID DoString(const char* str)
@@ -99,5 +109,12 @@ public:
 			DEBUG("Error: %s\n", lua_tostring(L, -1));
 			lua_pop(L, 1);
 		}
+	}
+
+	/* Loads specified file from the current RM_CONTENT2 (Content\Scripts) directory */
+	VOID LoadFile(const char* file)
+	{
+		/* Use in-game function to load file from content directory */
+		return reinterpret_cast<VOID(__fastcall*)(const char*)>(Engine::Addresses::Lua::Functions::load_file)(file);
 	}
 };

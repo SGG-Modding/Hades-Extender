@@ -29,8 +29,9 @@ namespace Core::Lua
 
 		Core::Hooks::on_wndproc = [=](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
-			if (!extender || !extender->Initialized())
+			/*if (!extender || !extender->Initialized())
 				return;
+
 			lua_State* L = extender->State();
 			if (hwnd == GetFocus())
 			{
@@ -47,7 +48,7 @@ namespace Core::Lua
 					}
 					lua_pop(L, 3);
 				}
-			}
+			}*/
 		};
 
 		return TRUE;
@@ -62,7 +63,11 @@ namespace Core::Lua
 		/* Set lua initialization event */
 		Core::Hooks::on_lua_init = [=]()
 		{
+			return;
 			DEBUG("[ Extender ] Initializing lua...\n");
+			/* Set thread guard */
+			_InterlockedCompareExchange64((LONG64*)Engine::Addresses::Game::thread_guard, GetCurrentThreadId(), 0);
+
 			/* Call our `OnInit` function */
 			extender->OnInit();
 			/* Re-open the lua debug library to restore the `debug.sethook` function and copy it. */
@@ -80,15 +85,64 @@ namespace Core::Lua
 				print(tostring(y))
 				)";
 
-			if (luaL_loadbuffer(extender->State(), buffer, strlen(buffer), 0) || lua_pcall(extender->State(), 0, 0, 0))
+			extender->DoString(buffer);
+
+			/* We have finished all of our initialization, load original files! */
+			//extender->LoadFile("Main.lua");
+			//extender->LoadFile("RoomManager.lua");
+			/* Reset thread guard */
+			_InterlockedExchange64((LONG64*)Engine::Addresses::Game::thread_guard, 0);
+		};
+
+		/* Set lua pre initialization event */
+		Core::Hooks::on_lua_pre_init = [=]()
+		{
+			DEBUG("[ Extender ] Marking extension as reset...\n");
+			extender->Reset();
+		};
+
+		/* Set lua load file event */
+		Core::Hooks::on_lua_load_file = [=](const char* file_name)
+		{
+			/* Do not allow loading of any files until extender has finished initializing! */
+			if (strcmp(file_name, "Main.lua") == 0)
 			{
-				DEBUG("Error loading test buffer!\n");
-				DEBUG("Error: %s\n", lua_tostring(extender->State(), -1));
-				lua_pop(extender->State(), 1);
+				DEBUG("[ Extender ] Initializing lua...\n");
+				/* Set thread guard */
+				_InterlockedCompareExchange64((LONG64*)Engine::Addresses::Game::thread_guard, GetCurrentThreadId(), 0);
+
+				/* Call our `OnInit` function */
+				extender->OnInit();
+				/* Re-open the lua debug library to restore the `debug.sethook` function and copy it. */
+				reinterpret_cast<int(__fastcall*)(lua_State*)>(Engine::Addresses::Lua::Functions::open_debug)(extender->State());
+				extender->DoString("Extender.SetHook = debug.sethook\ndebug.sethook = function(...) end");
+
+				DEBUG("[ Extender ] Finished initializing lua!\n");
+
+				/* Test buffer */
+				const char* buffer = R"(
+
+				print('Hello from Lua Extender!')
+				local x,y  = Extender.GetCursorPosition()
+				print(tostring(x))
+				print(tostring(y))
+				)";
+
+				extender->DoString(buffer);
+
+				/* We have finished all of our initialization, load original files! */
+				//extender->LoadFile("Main.lua");
+				//extender->LoadFile("RoomManager.lua");
+				/* Reset thread guard */
+				_InterlockedExchange64((LONG64*)Engine::Addresses::Game::thread_guard, 0);
+
+				/* Enable Wndproc hook */
+				Core::Hooks::HookWndProc();
 			}
 		};
 
 		/* Begin adding our functions */
+
 		/* TODO: Possibly add helper functions for lua stack functions */
 
 		/* `Extender.GetAsyncKeyState` */
