@@ -27,9 +27,10 @@ namespace Core::Lua
 			}
 		};
 
-		/* 08-02-2021 Current disabled due to some weird error */
-		/*Core::Hooks::on_wndproc = [=](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+		Core::Hooks::on_wndproc = [=](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
+			if (!extender || !extender->Initialized())
+				return;
 			lua_State* L = extender->State();
 			if (hwnd == GetFocus())
 			{
@@ -47,7 +48,7 @@ namespace Core::Lua
 					lua_pop(L, 3);
 				}
 			}
-		};*/
+		};
 
 		return TRUE;
 	}

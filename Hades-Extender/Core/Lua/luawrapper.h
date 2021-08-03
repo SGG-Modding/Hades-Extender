@@ -7,6 +7,8 @@ class LuaWrapper
 private:
 	/* Our actual state */
 	lua_State* L;
+	/* Initialized flag */
+	BOOL initialized;
 	/* List of methods that belong in the global table */
 	std::vector<LuaFunction*> functions;
 	std::vector<LuaFunction*> callbacks;
@@ -15,6 +17,7 @@ public:
 	LuaWrapper()
 	{
 		this->L = *(lua_State**)(Engine::Addresses::Lua::state_instance);
+		this->initialized = FALSE;
 	}
 
 	/* Deconstructor */
@@ -49,6 +52,11 @@ public:
 	VOID DoCallback(const char* name, ...)
 	{
 		//...
+	}
+
+	BOOL Initialized()
+	{
+		return this->initialized;
 	}
 
 	/* Pushes all functions and callbacks onto the `Extender` global table */
