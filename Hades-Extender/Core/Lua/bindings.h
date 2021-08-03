@@ -21,7 +21,7 @@ namespace Core::Lua
 			{
 				lua_pushnumber(L, dt);
 				if (lua_pcall(L, 1, 0, 0))
-					printf("[ Extender ] Critical Error! %s\n", lua_tostring(L, -1));
+					DEBUG("[ Extender ] Critical Error! %s\n", lua_tostring(L, -1));
 
 				lua_pop(L, 1);
 			}
@@ -43,7 +43,7 @@ namespace Core::Lua
 					lua_pushnumber(L, lparam);
 					if (lua_pcall(L, 3, 0, 0) != 0)
 					{
-						printf("[ Extender ] Error running OnWndProc: %s\n", lua_tostring(L, -1));
+						DEBUG("[ Extender ] Error running OnWndProc: %s\n", lua_tostring(L, -1));
 					}
 					lua_pop(L, 3);
 				}
@@ -65,6 +65,10 @@ namespace Core::Lua
 			DEBUG("[ Extender ] Initializing lua...\n");
 			/* Call our `OnInit` function */
 			extender->OnInit();
+			/* Re-open the lua debug library to restore the `debug.sethook` function and copy it. */
+			reinterpret_cast<int(__fastcall*)(lua_State*)>(Engine::Addresses::Lua::Functions::open_debug)(extender->State());
+			extender->DoString("Extender.SetHook = debug.sethook\ndebug.sethook = function(...) end");
+
 			DEBUG("[ Extender ] Finished initializing lua!\n");
 
 			/* Test buffer */

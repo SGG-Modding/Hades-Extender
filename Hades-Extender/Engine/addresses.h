@@ -12,7 +12,8 @@ namespace Engine
 			namespace Functions
 			{
 				/* Called whenever the lua state is 'reset' */
-				DWORD64 CONST init_lua = Memory::GetCallAddress("E8 ? ? ? ? 48 8B 1D ? ? ? ? 48 8D 3D");
+				DWORD64 CONST init_lua		= Memory::GetCallAddress("E8 ? ? ? ? 48 8B 1D ? ? ? ? 48 8D 3D");
+				DWORD64 CONST open_debug	= Memory::GetCallAddress("E8 ? ? ? ? EB 05 E8 ? ? ? ? 88 1D");
 			}
 
 			/* Lua state pointer */

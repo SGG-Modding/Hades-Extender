@@ -90,4 +90,14 @@ public:
 		/* Note: Maybe we can construct `LuaWrapper` with the name of the table? Allow us to have multiple */
 		lua_setglobal(L, GLOBAL_TABLE);
 	}
+
+	VOID DoString(const char* str)
+	{
+		if (luaL_loadbuffer(L, str, strlen(str), 0) || lua_pcall(L, 0, 0, 0))
+		{
+			DEBUG("[ Extender ] Extender::DoString Error!\n");
+			DEBUG("Error: %s\n", lua_tostring(L, -1));
+			lua_pop(L, 1);
+		}
+	}
 };
